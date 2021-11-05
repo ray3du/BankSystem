@@ -1,4 +1,7 @@
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -33,7 +36,10 @@ public class Splash extends JFrame {
     }
 
     private void initComponents(){
-        ImageIcon imageIcon = new ImageIcon("/home/ray3du/Desktop/projects/BankingSystem/public/img/accounting-policies.jpg");
+        Path currentPath = Paths.get("");
+        String path = currentPath.toAbsolutePath().toString();
+        String imagePath = path + "/public/img/accounting-policies.jpg";
+        ImageIcon imageIcon = new ImageIcon(imagePath);
         JLabel label = new JLabel();
         label.setSize(800, 500);
         label.setLocation(0, 0);
@@ -48,14 +54,15 @@ public class Splash extends JFrame {
         this.add(progressBar);
         this.add(label);
         this.setSize(800, 500);
+        this.setBackground(Color.GRAY);
         this.setIconImage(Icons.getIcon().getImage());
         EventQueue.invokeLater(() -> {
             this.setUndecorated(true);
             this.setVisible(true);
         });
-        fill();
+        load();
     }
-    public void fill(){
+    public void load(){
         int counter = 0;
         while( counter <= 100 ){
             progressBar.setValue(counter);

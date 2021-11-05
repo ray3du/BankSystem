@@ -21,12 +21,14 @@ public class LoginAPI {
     private String username;
     private String password;
     private JLabel error;
+    private Login login;
     private HttpsURLConnection connection;
 
-    public LoginAPI(String username, String password, JLabel error){
+    public LoginAPI(String username, String password, JLabel error, Login login){
         this.username = username;
         this.password = password;
         this.error = error;
+        this.login = login;
         loginAPI();
     }
     private void loginAPI(){
@@ -81,6 +83,7 @@ public class LoginAPI {
                     String ans = response.substring(8, response.length() - 2);
                     error.setText(ans);
                 }else{
+                    login.setVisible(false);
                     EventQueue.invokeLater(() -> {
                         new Dashboard().setToken(this.token);
                     });

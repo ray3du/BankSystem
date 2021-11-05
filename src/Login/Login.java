@@ -194,12 +194,9 @@ public class Login extends JFrame{
         if (pass.equals("")) {
             passwordError.setText("Password cannot be empty");
         }else{
-            Login.this.setVisible(false);
-            EventQueue.invokeLater(() -> {
-                passwordError.setText("");
-                login.setEnabled(true);
-                new LoginAPI(username, pass, error);
-            });
+            passwordError.setText("");
+            new LoginAPI(username, pass, error, this);
+            login.setEnabled(true);
         }
         login.setEnabled(true);
     }
