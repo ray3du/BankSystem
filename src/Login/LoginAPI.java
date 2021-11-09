@@ -42,7 +42,7 @@ public class LoginAPI {
                 
                 try {
                     URL url = new URL("https://cryptotransact.herokuapp.com/v1/login/");
-                     connection = (HttpsURLConnection) url.openConnection();
+                    connection = (HttpsURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json");

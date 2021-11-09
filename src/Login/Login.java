@@ -18,6 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import Bank.Dashboard;
 import Config.Colors;
 import Config.HintTextField;
 import Config.Icons;
@@ -141,7 +142,8 @@ public class Login extends JFrame{
         login.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                checkErrors();
+                // checkErrors();
+                new Dashboard();
             }
         });
 

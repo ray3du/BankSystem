@@ -13,24 +13,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.Border;
 
 import Config.Colors;
-import Config.HintTextField;
 import Config.Icons;
 
-public class ForgotPassword extends JFrame{
+public class NewPassword extends JFrame{
     private BorderLayout borderLayout;
-    private HintTextField email;
-    private JLabel error;
+    private JPasswordField password;
     private JButton login;
-    private JButton send;
+    private JButton confirm;
     private JLabel emailJLabel;
     private JLabel emailJLabelTitle;
+    private JLabel error;
     private JPanel loginPanel;
     private JPanel formPanel;
+    private String email;
 
-    public ForgotPassword(){
+    public NewPassword(String email){
+        this.email = email;
         initComponents();
     }
     private void initComponents(){
@@ -49,43 +51,46 @@ public class ForgotPassword extends JFrame{
         formPanel.setLocation(50, 50);
         // formPanel.setBackground(new Color(255, 255, 255));
 
-        emailJLabelTitle = new JLabel("Password reset");
+        emailJLabelTitle = new JLabel("Enter the password sent to your email");
         emailJLabelTitle.setSize(300, 30);
         emailJLabelTitle.setLocation(0, 70);
         emailJLabelTitle.setFont(labelFonts);
         emailJLabelTitle.setHorizontalAlignment(JLabel.CENTER);
 
-        emailJLabel = new JLabel("Email");
+        emailJLabel = new JLabel("Password");
         emailJLabel.setSize(300, 30);
         emailJLabel.setLocation(0, 100);
         emailJLabel.setFont(labelFonts);
-        email = new HintTextField("Enter email");
-        email.setSize(300, 30);
-        email.setLocation(0, 130);
-        email.setBorder(border);
+        password = new JPasswordField();
+        password.setSize(300, 30);
+        password.setLocation(0, 130);
+        password.setBorder(border);
 
-        send = new JButton();
-        send.setText("Send");
-        send.setSize(140, 30);
-        send.setLocation(0, 180);
-        send.setForeground(Colors.getWhiteColor());
-        send.setBackground(Colors.getPrimaryColor());
-        send.setBorder(border);
-        send.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        send.addActionListener(new ActionListener(){
+        confirm = new JButton();
+        confirm.setText("Confirm");
+        confirm.setSize(140, 30);
+        confirm.setLocation(0, 180);
+        confirm.setForeground(Colors.getWhiteColor());
+        confirm.setBackground(Colors.getPrimaryColor());
+        confirm.setBorder(border);
+        confirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        confirm.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                String emailString = email.getText();
-                if (!emailString.equals("Enter email")) {
-                    new ForgotPasswordAPI(emailString, error, ForgotPassword.this);
+                StringBuilder builder = new StringBuilder();
+                char[] pass = password.getPassword();
+                String tempPass = builder.append(pass).toString();
+                String passwd = tempPass; 
+                if (!passwd.equals("")) {
+                   new NewPasswordAPI(passwd, email, error, NewPassword.this);
                 } else {
-                    JOptionPane.showMessageDialog(ForgotPassword.this, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
-                }  
+                    JOptionPane.showMessageDialog(NewPassword.this, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
         login = new JButton();
-        login.setText("Back");
+        login.setText("Login");
         login.setSize(140, 30);
         login.setLocation(160, 180);
         login.setForeground(Colors.getWhiteColor());
@@ -95,7 +100,7 @@ public class ForgotPassword extends JFrame{
         login.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                ForgotPassword.this.setVisible(false); 
+                NewPassword.this.setVisible(false); 
                 EventQueue.invokeLater(() -> {
                     new Login();
                 });    
@@ -111,9 +116,9 @@ public class ForgotPassword extends JFrame{
 
         formPanel.add(emailJLabelTitle);
         formPanel.add(emailJLabel);
-        formPanel.add(email);
+        formPanel.add(password);
         formPanel.add(login);
-        formPanel.add(send);
+        formPanel.add(confirm);
         formPanel.add(error);
         formPanel.setLayout(null);
 

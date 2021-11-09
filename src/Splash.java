@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -9,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 import Config.Icons;
+import Config.StringPath;
 import Login.Login;
 
 /**
@@ -36,9 +35,7 @@ public class Splash extends JFrame {
     }
 
     private void initComponents(){
-        Path currentPath = Paths.get("");
-        String path = currentPath.toAbsolutePath().toString();
-        String imagePath = path + "/public/img/accounting-policies.jpg";
+        String imagePath = StringPath.getAbsolutePath() + "/public/img/accounting-policies.jpg";
         ImageIcon imageIcon = new ImageIcon(imagePath);
         JLabel label = new JLabel();
         label.setSize(800, 500);
