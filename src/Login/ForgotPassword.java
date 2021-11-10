@@ -19,12 +19,12 @@ import Config.Colors;
 import Config.HintTextField;
 import Config.Icons;
 
-public class ForgotPassword extends JFrame{
+public class ForgotPassword extends JFrame implements ActionListener {
     private BorderLayout borderLayout;
     private HintTextField email;
     private JLabel error;
     private JButton login;
-    private JButton send;
+    private static JButton send;
     private JLabel emailJLabel;
     private JLabel emailJLabelTitle;
     private JPanel loginPanel;
@@ -32,6 +32,9 @@ public class ForgotPassword extends JFrame{
 
     public ForgotPassword(){
         initComponents();
+    }
+    public static JButton getSendButton(){
+        return send;
     }
     private void initComponents(){
         Font labelFonts = new Font("Arial", Font.BOLD, 13);
@@ -72,17 +75,8 @@ public class ForgotPassword extends JFrame{
         send.setBackground(Colors.getPrimaryColor());
         send.setBorder(border);
         send.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        send.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                String emailString = email.getText();
-                if (!emailString.equals("Enter email")) {
-                    new ForgotPasswordAPI(emailString, error, ForgotPassword.this);
-                } else {
-                    JOptionPane.showMessageDialog(ForgotPassword.this, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
-                }  
-            }
-        });
+        send.setFocusable(false);
+        send.addActionListener(this);
 
         login = new JButton();
         login.setText("Back");
@@ -92,15 +86,8 @@ public class ForgotPassword extends JFrame{
         login.setBackground(Colors.getSecondaryColor());
         login.setBorder(border);
         login.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        login.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                ForgotPassword.this.setVisible(false); 
-                EventQueue.invokeLater(() -> {
-                    new Login();
-                });    
-            }
-        });
+        login.setFocusable(false);
+        login.addActionListener(this);
 
         error = new JLabel();
         error.setSize(300, 30);
@@ -127,5 +114,32 @@ public class ForgotPassword extends JFrame{
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+    private void send_action() {
+        String emailString = email.getText();
+
+        if (emailString.equals("")) {
+            ForgotPassword.this.dispose();
+            //new NewPassword(emailString);
+            new ForgotPasswordAPI(emailString, error, ForgotPassword.this);
+        } else {
+            JOptionPane.showMessageDialog(ForgotPassword.this, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        }  
+    }
+    private void login_action() {
+        ForgotPassword.this.dispose();
+        EventQueue.invokeLater(() -> {
+            new Login();
+        });    
+    }
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        Object source = arg0.getSource();
+        if (source == send) {
+            send_action();
+        }
+        if (source == login) {
+            login_action();
+        }
     }
 }

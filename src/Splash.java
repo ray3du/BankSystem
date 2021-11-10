@@ -22,7 +22,7 @@ public class Splash extends JFrame {
                 initComponents();
                 try {
                     sleep(4000);
-                    Splash.this.setVisible(false);
+                    Splash.this.dispose();
                     EventQueue.invokeLater(() -> {
                         new Login();
                     });

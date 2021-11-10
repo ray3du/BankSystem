@@ -1,6 +1,7 @@
 package Bank;
 
 import java.awt.CardLayout;
+import java.awt.GridLayout;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -44,21 +45,17 @@ public class Dashboard extends JFrame {
         Border border = BorderFactory.createRaisedBevelBorder();
 
         menuPanel = new JPanel();
-        menuPanel.setSize(200, 500);
+        menuPanel.setSize(200, 470);
         menuPanel.setLocation(0, 0);
         menuPanel.setBorder(border);
 
         usernameLabel = new JLabel("admin@gmail.com");
-        usernameLabel.setSize(150, 30);
-        usernameLabel.setLocation(25, 20);
         usernameLabel.setHorizontalAlignment(JLabel.CENTER);
         usernameLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         String depositPath = StringPath.getAbsolutePath() + "/public/deposit-icon-21.jpg";
         ImageIcon depositIcon = new ImageIcon(depositPath);
         depositLabel = new JLabel("Deposit");
-        depositLabel.setSize(100, 80);
-        depositLabel.setLocation(50, 75);
         depositLabel.setIcon(depositIcon);
         depositLabel.setHorizontalTextPosition(JLabel.CENTER);
         depositLabel.setVerticalTextPosition(JLabel.TOP);
@@ -71,7 +68,9 @@ public class Dashboard extends JFrame {
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 menuDash.add("Deposit", new Deposit());
-                menuDash.revalidate();
+                menuDash.invalidate();
+                menuDash.validate();
+                menuDash.repaint();
             }
 
             @Override
@@ -89,8 +88,6 @@ public class Dashboard extends JFrame {
         });
         
         withdrawLabel = new JLabel("Withdraw");
-        withdrawLabel.setSize(100, 80);
-        withdrawLabel.setLocation(50, 175);
         withdrawLabel.setHorizontalTextPosition(JLabel.CENTER);
         withdrawLabel.setVerticalTextPosition(JLabel.BOTTOM);
         withdrawLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -120,8 +117,6 @@ public class Dashboard extends JFrame {
         
         
         accountLabel = new JLabel("Account");
-        accountLabel.setSize(100, 80);
-        accountLabel.setLocation(50, 275);
         accountLabel.setHorizontalTextPosition(JLabel.CENTER);
         accountLabel.setVerticalTextPosition(JLabel.BOTTOM);
         accountLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -133,8 +128,6 @@ public class Dashboard extends JFrame {
         String path = StringPath.getAbsolutePath() + "/public/img/icon.png";
         ImageIcon icon = new ImageIcon(path);
         settingsJLabel = new JLabel("Settings");
-        settingsJLabel.setSize(100, 80);
-        settingsJLabel.setLocation(50, 375);
         settingsJLabel.setIcon(icon);
         settingsJLabel.setHorizontalTextPosition(JLabel.CENTER);
         settingsJLabel.setVerticalTextPosition(JLabel.BOTTOM);
@@ -145,7 +138,7 @@ public class Dashboard extends JFrame {
 
         settingsJLabel.setBorder(border);
 
-        menuPanel.setLayout(null);
+        menuPanel.setLayout(new GridLayout(5, 1, 50, 5));
         EventQueue.invokeLater(() -> {
             menuPanel.add(usernameLabel);
             menuPanel.add(depositLabel);

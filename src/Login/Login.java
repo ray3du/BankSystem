@@ -115,7 +115,7 @@ public class Login extends JFrame{
         forgotPasswordClick.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                Login.this.setVisible(false);
+                Login.this.dispose();
                 EventQueue.invokeLater(() -> {
                     new ForgotPassword();
                 });

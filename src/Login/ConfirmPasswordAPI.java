@@ -1,6 +1,7 @@
 package Login;
 
 import java.awt.EventQueue;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,30 +14,28 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 
-import Config.URLS;
-
-public class ForgotPasswordAPI {
-    private ForgotPassword forgotPassword;
+public class ConfirmPasswordAPI {
     private JLabel error;
-    private String email;
+    private ConfirmPassword confirmPassword;
+    private String password;
     private String result;
 
-    public ForgotPasswordAPI(String email, JLabel error, ForgotPassword forgotPassword){
-        this.email = email;
+    public ConfirmPasswordAPI(String password, JLabel error, ConfirmPassword confirmPassword){
+        this.password = password;
         this.error = error;
-        this.forgotPassword = forgotPassword;
+        this.confirmPassword = confirmPassword;
         startAPI();
     }
+
     private void startAPI(){
         SwingWorker<Void, String> swingWorker = new SwingWorker<Void, String>(){
             @Override
             protected Void doInBackground() throws Exception {
                 HashMap<String, String> hashMap = new HashMap<String, String>();
-                hashMap.put("\"email\"", "\"" + email + "\"");
+                hashMap.put("\"password\"", "\"" + password + "\"");
                 ForgotPassword.getSendButton().setEnabled(false);
                 ForgotPassword.getSendButton().setText("sending ..");
                 try {
@@ -64,9 +63,8 @@ public class ForgotPasswordAPI {
 
                         result = builder.toString();
                    } catch (IOException e) {
-                        ForgotPassword.getSendButton().setEnabled(true);
-                        ForgotPassword.getSendButton().setText("send");
-                        error.setText("Error no internet connection");
+                    //    e.printStackTrace();
+                       error.setText("Error no internet connection");
                    }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -85,9 +83,9 @@ public class ForgotPasswordAPI {
                 } else {
                     ForgotPassword.getSendButton().setEnabled(true);
                     ForgotPassword.getSendButton().setText("send");
-                    forgotPassword.dispose();
+                    confirmPassword.dispose();
                     EventQueue.invokeLater(() -> {
-                        new NewPassword(email);
+                        new Login();
                     });
                 }
             }

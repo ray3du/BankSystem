@@ -19,7 +19,7 @@ import javax.swing.border.Border;
 import Config.Colors;
 import Config.Icons;
 
-public class NewPassword extends JFrame{
+public class NewPassword extends JFrame implements ActionListener{
     private BorderLayout borderLayout;
     private JPasswordField password;
     private JButton login;
@@ -43,13 +43,11 @@ public class NewPassword extends JFrame{
         loginPanel = new JPanel();
         loginPanel.setSize(400, 400);
         loginPanel.setLocation(200, 25); 
-        // loginPanel.setBackground(new Color(0, 0, 0));
 
         // Form layout
         formPanel = new JPanel();
         formPanel.setSize(300, 300);
         formPanel.setLocation(50, 50);
-        // formPanel.setBackground(new Color(255, 255, 255));
 
         emailJLabelTitle = new JLabel("Enter the password sent to your email");
         emailJLabelTitle.setSize(300, 30);
@@ -74,20 +72,8 @@ public class NewPassword extends JFrame{
         confirm.setBackground(Colors.getPrimaryColor());
         confirm.setBorder(border);
         confirm.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        confirm.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                StringBuilder builder = new StringBuilder();
-                char[] pass = password.getPassword();
-                String tempPass = builder.append(pass).toString();
-                String passwd = tempPass; 
-                if (!passwd.equals("")) {
-                   new NewPasswordAPI(passwd, email, error, NewPassword.this);
-                } else {
-                    JOptionPane.showMessageDialog(NewPassword.this, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
+        confirm.setFocusable(false);
+        confirm.addActionListener(this);
 
         login = new JButton();
         login.setText("Login");
@@ -97,15 +83,8 @@ public class NewPassword extends JFrame{
         login.setBackground(Colors.getSecondaryColor());
         login.setBorder(border);
         login.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        login.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                NewPassword.this.setVisible(false); 
-                EventQueue.invokeLater(() -> {
-                    new Login();
-                });    
-            }
-        });
+        login.setFocusable(false);
+        login.addActionListener(this);
 
         error = new JLabel();
         error.setSize(300, 30);
@@ -132,5 +111,34 @@ public class NewPassword extends JFrame{
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+    }
+    private void confirm_action() {
+        StringBuilder builder = new StringBuilder();
+        char[] pass = password.getPassword();
+        String tempPass = builder.append(pass).toString();
+        String passwd = tempPass; 
+        if (!passwd.equals("")) {
+            NewPassword.this.dispose();
+            //new ConfirmPassword();
+            new NewPasswordAPI(passwd, email, error, NewPassword.this);
+        } else {
+            JOptionPane.showMessageDialog(NewPassword.this, "Password cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void login_action() {
+        NewPassword.this.dispose();
+        EventQueue.invokeLater(() -> {
+            new Login();
+        });   
+    }
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        Object source = arg0.getSource();
+        if (source == confirm){
+            confirm_action();
+        }
+        if (source == login){
+            login_action();
+        }
     }
 }

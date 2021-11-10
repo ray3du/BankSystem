@@ -81,7 +81,7 @@ public class NewPasswordAPI {
                 if (result.contains("error")) {
                     
                 } else {
-                    newPassword.setVisible(false);
+                    newPassword.dispose();
                     EventQueue.invokeLater(() -> {
                         new Dashboard();
                     });
